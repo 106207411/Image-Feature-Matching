@@ -272,12 +272,16 @@ def save_rotate_img(img1, img2, pts1, pts2):
     theta = math.atan2(dy, dx)
 
     # Mean of matching points coordinates of uav1 and uav2
-    mpc1_bar, mpc2_bar = np.mean(pts1, axis=0), np.mean(pts2, axis=0)
-    c1_bar, r1_bar = mpc1_bar[0], mpc1_bar[1]
-    c2_bar, r2_bar = mpc2_bar[0], mpc2_bar[1]
-    dc_bar, dr_bar = (c2_bar - c1_bar), (r2_bar - r1_bar)
+    dc_bar, dr_bar = np.mean(pts2-pts1, axis=0)
     theta_prime = math.atan2(dr_bar, dc_bar)
     dtheta = theta - theta_prime
+
+    # Calculate RMSE as matching error evaluation metric
+    # print(pts1)
+    # print(pts2)pst2
+    # print(pts2-pts1)
+    # print((pts2-pts1)-np.mean(pts2-pts1, axis=0))
+    print("RSME:", round(math.sqrt(np.sum(np.power((pts2-pts1)-np.mean(pts2-pts1, axis=0), 2)) / len(pts1)), 2))
 
     # Rotation matrix
     rotation_mat = np.array([[math.cos(dtheta), math.sin(dtheta), 0],
