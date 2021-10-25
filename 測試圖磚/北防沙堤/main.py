@@ -123,7 +123,13 @@ def draw_uav_and_tile(args):
     Draw two images and place them side by side in a new image.
     Save the new image and big tile."""
     big_tile = get_bigtile_img(args)
-    cv2.imwrite("./bigtile.png", big_tile)
+    
+    # Create output path
+    if not os.path.exists(opt_dir):
+        os.mkdir(opt_dir)
+
+    cv2.imwrite(f"{opt_dir}/bigtile_{img1_name}.png", big_tile)
+
     img1 = cv2.resize(cv2.imread(args.UAV_img1), None, fx = 0.2, fy = 0.2, interpolation = cv2.INTER_CUBIC)
     img2 = big_tile
 
@@ -138,8 +144,7 @@ def draw_uav_and_tile(args):
     new_img[0:img1.shape[0],0:img1.shape[1]] = img1
     new_img[0:img2.shape[0],img1.shape[1]:img1.shape[1]+img2.shape[1]] = img2
 
-    cv2.imwrite('uav_bigtile.png', new_img)
-
+    cv2.imwrite(f'{opt_dir}/uav_bigtile_{img1_name}.png', new_img)
 
 
 def preprocess_img(img1, img2):
@@ -281,7 +286,7 @@ def save_rotate_img(img1, img2, pts1, pts2):
     # print(pts2)pst2
     # print(pts2-pts1)
     # print((pts2-pts1)-np.mean(pts2-pts1, axis=0))
-    print("RSME:", round(math.sqrt(np.sum(np.power((pts2-pts1)-np.mean(pts2-pts1, axis=0), 2)) / len(pts1)), 2))
+    # print("RSME:", round(math.sqrt(np.sum(np.power((pts2-pts1)-np.mean(pts2-pts1, axis=0), 2)) / len(pts1)), 2))
 
     # Rotation matrix
     rotation_mat = np.array([[math.cos(dtheta), math.sin(dtheta), 0],
@@ -304,7 +309,8 @@ def save_rotate_img(img1, img2, pts1, pts2):
 
     # Rotate image1 to north
     north_img = cv2.warpAffine(src_img, shifted_transf, (dst_w, dst_h), borderMode=cv2.BORDER_TRANSPARENT)
-    cv2.imwrite(f"rotate_north.png", north_img)
+    
+    cv2.imwrite(f"{opt_dir}/rotate_north_{img1_name}.png", north_img)
     
 
 
@@ -312,5 +318,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("UAV_img1", help="path to UAV image")
     parser.add_argument("--coord", help="enter TWD97 X Y coordinate UAV image", nargs="+", default=[])
+    parser.add_argument("--outputDir", help="enter the output directory", default="./outputDir")    
     args = parser.parse_args()
+    opt_dir = args.outputDir
+    img1_name = args.UAV_img1.split("/")[-1].split(".")[0]
     main(args)

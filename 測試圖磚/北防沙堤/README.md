@@ -4,23 +4,24 @@ main.py
 Use SURF to do surf matching with UAV image and orthophoto. Then rotate the UAV image to north.
 
 ### Usage
-1. Enter UAV image(required).
+1. Enter UAV image name (required).
 
-```shell
-$ python main.py ./test_uav_img/P1482162.jpg
-```
+`$ python main.py ./test_uav_img/P1482162.jpg`
+
 2. Enter TWD97 coordinate x,y of UAV image (optional) if image doesn’t contain any geoinfo.
 
-```shell
-$ python main.py ./test_uav_img/P1482162.jpg --coord 162615.934, 2550191.182
-```
+`python main.py ./test_uav_img/P1482162.jpg --coord 162615.934, 2550191.182`
+
+3. Enter the output directory (default=“./outputDir”)
+
+`python main.py ./test_uav_img/P1482162.jpg --outputDir ./outputFolder`
 
 ### Output
     .
-    ├── ...
-    ├── bigtile.png                  # big tile 
-    ├── uav_bigtile.png              # big tile correspond to UAV img1
-    └── rotate_north.png             # Rotated UAV image1
+    ├── outputDir									  # default output folder
+        ├── bigtile_<UavImgName>.png                  # big tile 
+        ├── uav_bigtile_<UavImgName>.png              # big tile correspond to UAV img1
+        └── rotate_north_<UavImgName>.png             # Rotated UAV image1
 
 ### Folder structure
     .
