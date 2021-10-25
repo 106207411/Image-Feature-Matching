@@ -18,10 +18,10 @@ Use SURF to do surf matching with UAV image and orthophoto. Then rotate the UAV 
 
 ### Output
     .
-    ├── outputDir									  # default output folder
-        ├── bigtile_<UavImgName>.png                  # big tile 
-        ├── uav_bigtile_<UavImgName>.png              # big tile correspond to UAV img1
-        └── rotate_north_<UavImgName>.png             # Rotated UAV image1
+    ├── outputDir						         # default output folder
+        ├── bigtile_<UavImgName>.png             # big tile 
+        ├── uav_bigtile_<UavImgName>.png         # big tile correspond to UAV img1
+        └── rotate_north_<UavImgName>.png        # Rotated UAV image1
 
 ### Folder structure
     .
